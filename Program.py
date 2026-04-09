@@ -3,18 +3,20 @@ from tkinter import messagebox, scrolledtext
 import math
 
 # ============================================================
-# PALETA DE CORES — Neutros quentes + Verde musgo
+# PALETA DE CORES — Dark Moderno + Verde musgo
 # ============================================================
 MUSGO_PROFUNDO = "#3D4A2A"
 MUSGO_MEDIO    = "#5C6B3E"
 MUSGO_CLARO    = "#7A8B5A"
 MUSGO_PALIDO   = "#A8B88A"
 
-BEGE_CLARO     = "#FAF8F3"
-BEGE_AREIA     = "#F3EFE6"
-BEGE_MEDIO     = "#E8E2D3"
-CINZA_QUENTE   = "#8B8578"
-MARROM_ESCURO  = "#2D2A24"
+# Neutros escuros + brancos
+PRETO_PROFUNDO = "#0F0F0F"
+CINZA_ESCURO   = "#1A1A1A"
+CINZA_MEDIO    = "#2A2A2A"
+CINZA_CLARO    = "#3A3A3A"
+BRANCO_SUAVE   = "#F5F5F5"
+CINZA_TEXTO    = "#B0B0B0"
 
 VERDE_SUCESSO  = "#6B8E4E"
 AMBAR_AVISO    = "#C4932B"
@@ -139,24 +141,24 @@ def calcular():
         entrada.delete(0, tk.END)
         entrada.insert(tk.END, "Erro: ÷0")
         entrada.config(fg=TERRACOTA_ERRO)
-        janela.after(1200, lambda: entrada.config(fg=MARROM_ESCURO))
+        janela.after(1200, lambda: entrada.config(fg=BRANCO_SUAVE))
         nova_operacao = True
     except ValueError as e:
         entrada.delete(0, tk.END)
         entrada.insert(tk.END, "Erro: Domínio")
         entrada.config(fg=TERRACOTA_ERRO)
-        janela.after(1200, lambda: entrada.config(fg=MARROM_ESCURO))
+        janela.after(1200, lambda: entrada.config(fg=BRANCO_SUAVE))
         nova_operacao = True
     except Exception as e:
         entrada.delete(0, tk.END)
         entrada.insert(tk.END, "Erro")
         entrada.config(fg=TERRACOTA_ERRO)
-        janela.after(1200, lambda: entrada.config(fg=MARROM_ESCURO))
+        janela.after(1200, lambda: entrada.config(fg=BRANCO_SUAVE))
         nova_operacao = True
 
 def limpar():
     entrada.delete(0, tk.END)
-    entrada.config(fg=MARROM_ESCURO)
+    entrada.config(fg=BRANCO_SUAVE)
 
 def apagar_ultimo():
     atual = entrada.get()
@@ -171,13 +173,13 @@ def mostrar_historico():
     janela_hist = tk.Toplevel(janela)
     janela_hist.title("Histórico de Operações")
     janela_hist.geometry("500x400")
-    janela_hist.configure(bg=BEGE_CLARO)
+    janela_hist.configure(bg=PRETO_PROFUNDO)
     
     texto_hist = scrolledtext.ScrolledText(
         janela_hist, 
         font=('Segoe UI', 10),
-        bg=BEGE_AREIA,
-        fg=MARROM_ESCURO,
+        bg=CINZA_MEDIO,
+        fg=BRANCO_SUAVE,
         wrap=tk.WORD
     )
     texto_hist.pack(fill='both', expand=True, padx=10, pady=10)
@@ -248,47 +250,47 @@ def atualizar_label_memoria():
 # ============================================================
 janela = tk.Tk()
 janela.title("Calculadora Científica Pro")
-janela.configure(bg=BEGE_CLARO)
+janela.configure(bg=PRETO_PROFUNDO)
 janela.resizable(False, False)
 janela.geometry("900x750")
 
 # Container geral
-container = tk.Frame(janela, bg=BEGE_CLARO, padx=20, pady=20)
+container = tk.Frame(janela, bg=PRETO_PROFUNDO, padx=20, pady=20)
 container.pack(fill='both', expand=True)
 
 # Título
 titulo = tk.Label(
     container, text="🧮 Calculadora Científica Pro",
     font=('Segoe UI', 18, 'bold'),
-    bg=BEGE_CLARO, fg=MUSGO_PROFUNDO
+    bg=PRETO_PROFUNDO, fg=MUSGO_CLARO
 )
 titulo.pack(pady=(0, 10))
 
 # Barra de status
-barra_status = tk.Frame(container, bg=BEGE_AREIA, bd=0, relief='flat')
+barra_status = tk.Frame(container, bg=CINZA_ESCURO, bd=0, relief='flat')
 barra_status.pack(fill='x', pady=(0, 8))
 
 label_modo = tk.Label(
     barra_status, text="Modo: Radianos",
-    font=('Segoe UI', 9), bg=BEGE_AREIA, fg=CINZA_QUENTE, padx=10, pady=4
+    font=('Segoe UI', 9), bg=CINZA_ESCURO, fg=CINZA_TEXTO, padx=10, pady=4
 )
 label_modo.pack(side='left')
 
 label_memoria = tk.Label(
     barra_status, text="M = 0",
-    font=('Segoe UI', 9), bg=BEGE_AREIA, fg=CINZA_QUENTE, padx=10, pady=4
+    font=('Segoe UI', 9), bg=CINZA_ESCURO, fg=CINZA_TEXTO, padx=10, pady=4
 )
 label_memoria.pack(side='right')
 
 # Visor
-visor_frame = tk.Frame(container, bg=BEGE_AREIA, bd=0, highlightthickness=2,
-                       highlightbackground=BEGE_MEDIO)
+visor_frame = tk.Frame(container, bg=CINZA_MEDIO, bd=0, highlightthickness=2,
+                       highlightbackground=MUSGO_CLARO)
 visor_frame.pack(fill='x', pady=(0, 15))
 
 entrada = tk.Entry(
     visor_frame, font=('Segoe UI', 28), borderwidth=0,
-    justify='right', bg=BEGE_AREIA, fg=MARROM_ESCURO,
-    insertbackground=MUSGO_PROFUNDO
+    justify='right', bg=CINZA_MEDIO, fg=BRANCO_SUAVE,
+    insertbackground=MUSGO_CLARO
 )
 entrada.pack(fill='x', padx=15, pady=15, ipady=8)
 
@@ -298,13 +300,13 @@ entrada.pack(fill='x', padx=15, pady=15, ipady=8)
 def criar_botao(parent, texto, comando, estilo='neutro', largura=6):
     """Cria um botão estilizado."""
     estilos = {
-        'neutro':    {'bg': BEGE_AREIA,    'fg': MARROM_ESCURO,  'active': BEGE_MEDIO,     'font_w': 'normal'},
-        'operador':  {'bg': MUSGO_CLARO,   'fg': BEGE_CLARO,     'active': MUSGO_MEDIO,    'font_w': 'bold'},
-        'primario':  {'bg': MUSGO_PROFUNDO,'fg': BEGE_CLARO,     'active': MUSGO_MEDIO,    'font_w': 'bold'},
-        'funcao':    {'bg': MUSGO_PALIDO,  'fg': MUSGO_PROFUNDO, 'active': MUSGO_CLARO,    'font_w': 'normal'},
-        'perigo':    {'bg': TERRACOTA_ERRO,'fg': BEGE_CLARO,     'active': '#8B3C30',      'font_w': 'bold'},
-        'memoria':   {'bg': BEGE_MEDIO,    'fg': MUSGO_PROFUNDO, 'active': MUSGO_PALIDO,   'font_w': 'bold'},
-        'toggle':    {'bg': AMBAR_AVISO,   'fg': BEGE_CLARO,     'active': '#A67A1F',      'font_w': 'bold'},
+        'neutro':    {'bg': CINZA_CLARO,   'fg': BRANCO_SUAVE,   'active': CINZA_MEDIO,    'font_w': 'normal'},
+        'operador':  {'bg': MUSGO_CLARO,   'fg': PRETO_PROFUNDO, 'active': MUSGO_PALIDO,   'font_w': 'bold'},
+        'primario':  {'bg': MUSGO_PROFUNDO,'fg': BRANCO_SUAVE,   'active': MUSGO_CLARO,    'font_w': 'bold'},
+        'funcao':    {'bg': CINZA_MEDIO,   'fg': MUSGO_CLARO,    'active': CINZA_CLARO,    'font_w': 'normal'},
+        'perigo':    {'bg': TERRACOTA_ERRO,'fg': BRANCO_SUAVE,   'active': '#8B3C30',      'font_w': 'bold'},
+        'memoria':   {'bg': CINZA_CLARO,   'fg': MUSGO_CLARO,    'active': CINZA_MEDIO,    'font_w': 'bold'},
+        'toggle':    {'bg': AMBAR_AVISO,   'fg': PRETO_PROFUNDO, 'active': '#A67A1F',      'font_w': 'bold'},
     }
     s = estilos[estilo]
     btn = tk.Button(
@@ -325,11 +327,11 @@ def criar_botao(parent, texto, comando, estilo='neutro', largura=6):
 # ============================================================
 # GRID DE BOTÕES
 # ============================================================
-grid_frame = tk.Frame(container, bg=BEGE_CLARO)
+grid_frame = tk.Frame(container, bg=PRETO_PROFUNDO)
 grid_frame.pack(fill='both', expand=True)
 
 # Linha 0 — Memória + Modo + Histórico
-linha0 = tk.Frame(grid_frame, bg=BEGE_CLARO)
+linha0 = tk.Frame(grid_frame, bg=PRETO_PROFUNDO)
 linha0.pack(fill='x', pady=(0, 8))
 
 criar_botao(linha0, 'MC', mem_clear, 'memoria').pack(side='left', padx=2, fill='x', expand=True)
@@ -342,7 +344,7 @@ btn_modo.pack(side='left', padx=2, fill='x', expand=True)
 criar_botao(linha0, 'Hist', mostrar_historico, 'funcao').pack(side='left', padx=2, fill='x', expand=True)
 
 # Linha 1 — Funções trigonométricas básicas
-linha1 = tk.Frame(grid_frame, bg=BEGE_CLARO)
+linha1 = tk.Frame(grid_frame, bg=PRETO_PROFUNDO)
 linha1.pack(fill='x', pady=(0, 8))
 
 criar_botao(linha1, 'sin', lambda: inserir_funcao('sin('), 'funcao').pack(side='left', padx=2, fill='x', expand=True)
@@ -353,7 +355,7 @@ criar_botao(linha1, 'acos', lambda: inserir_funcao('acos('), 'funcao').pack(side
 criar_botao(linha1, 'atan', lambda: inserir_funcao('atan('), 'funcao').pack(side='left', padx=2, fill='x', expand=True)
 
 # Linha 2 — Funções hiperbólicas + logarítmicas
-linha2 = tk.Frame(grid_frame, bg=BEGE_CLARO)
+linha2 = tk.Frame(grid_frame, bg=PRETO_PROFUNDO)
 linha2.pack(fill='x', pady=(0, 8))
 
 criar_botao(linha2, 'sinh', lambda: inserir_funcao('sinh('), 'funcao').pack(side='left', padx=2, fill='x', expand=True)
@@ -364,7 +366,7 @@ criar_botao(linha2, 'ln', lambda: inserir_funcao('ln('), 'funcao').pack(side='le
 criar_botao(linha2, 'exp', lambda: inserir_funcao('exp('), 'funcao').pack(side='left', padx=2, fill='x', expand=True)
 
 # Linha 3 — Mais funções
-linha3 = tk.Frame(grid_frame, bg=BEGE_CLARO)
+linha3 = tk.Frame(grid_frame, bg=PRETO_PROFUNDO)
 linha3.pack(fill='x', pady=(0, 8))
 
 criar_botao(linha3, '√', lambda: inserir_funcao('√('), 'funcao').pack(side='left', padx=2, fill='x', expand=True)
@@ -375,7 +377,7 @@ criar_botao(linha3, '1/x', lambda: inserir_funcao('1/('), 'funcao').pack(side='l
 criar_botao(linha3, 'abs', lambda: inserir_funcao('abs('), 'funcao').pack(side='left', padx=2, fill='x', expand=True)
 
 # Linha 4 — Constantes
-linha4 = tk.Frame(grid_frame, bg=BEGE_CLARO)
+linha4 = tk.Frame(grid_frame, bg=PRETO_PROFUNDO)
 linha4.pack(fill='x', pady=(0, 8))
 
 criar_botao(linha4, 'π', lambda: clicar_botao('π'), 'funcao').pack(side='left', padx=2, fill='x', expand=True)
@@ -386,7 +388,7 @@ criar_botao(linha4, '⌫', apagar_ultimo, 'perigo').pack(side='left', padx=2, fi
 criar_botao(linha4, '%', lambda: clicar_botao('%'), 'operador').pack(side='left', padx=2, fill='x', expand=True)
 
 # Linha 5 — Números e operadores (7 8 9)
-linha5 = tk.Frame(grid_frame, bg=BEGE_CLARO)
+linha5 = tk.Frame(grid_frame, bg=PRETO_PROFUNDO)
 linha5.pack(fill='x', pady=(0, 8))
 
 criar_botao(linha5, '7', lambda: clicar_botao('7'), 'neutro').pack(side='left', padx=2, fill='x', expand=True)
@@ -397,7 +399,7 @@ criar_botao(linha5, ')', lambda: clicar_botao(')'), 'operador').pack(side='left'
 criar_botao(linha5, '÷', lambda: clicar_botao('/'), 'operador').pack(side='left', padx=2, fill='x', expand=True)
 
 # Linha 6 — Números (4 5 6)
-linha6 = tk.Frame(grid_frame, bg=BEGE_CLARO)
+linha6 = tk.Frame(grid_frame, bg=PRETO_PROFUNDO)
 linha6.pack(fill='x', pady=(0, 8))
 
 criar_botao(linha6, '4', lambda: clicar_botao('4'), 'neutro').pack(side='left', padx=2, fill='x', expand=True)
@@ -409,7 +411,7 @@ btn_igual_1 = criar_botao(linha6, '=', calcular, 'primario')
 btn_igual_1.pack(side='left', padx=2, fill='x', expand=True)
 
 # Linha 7 — Números (1 2 3)
-linha7 = tk.Frame(grid_frame, bg=BEGE_CLARO)
+linha7 = tk.Frame(grid_frame, bg=PRETO_PROFUNDO)
 linha7.pack(fill='x', pady=(0, 8))
 
 criar_botao(linha7, '1', lambda: clicar_botao('1'), 'neutro').pack(side='left', padx=2, fill='x', expand=True)
@@ -420,7 +422,7 @@ criar_botao(linha7, '+', lambda: clicar_botao('+'), 'operador').pack(side='left'
 criar_botao(linha7, '+/−', lambda: clicar_botao('-'), 'operador').pack(side='left', padx=2, fill='x', expand=True)
 
 # Linha 8 — 0 . Ans
-linha8 = tk.Frame(grid_frame, bg=BEGE_CLARO)
+linha8 = tk.Frame(grid_frame, bg=PRETO_PROFUNDO)
 linha8.pack(fill='x')
 
 btn_zero = criar_botao(linha8, '0', lambda: clicar_botao('0'), 'neutro')
